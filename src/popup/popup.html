@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NotebookLM Companion</title>
+    <style>
+      /* ── Reset ─────────────────────────────────────────────────────────────── */
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      /* ── Base ──────────────────────────────────────────────────────────────── */
+      body {
+        font-family: 'Google Sans', Roboto, Arial, sans-serif;
+        width: 320px;
+        background: #ffffff;
+        color: #202124;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      /* ── Header ────────────────────────────────────────────────────────────── */
+      .header {
+        background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+        color: white;
+        padding: 14px 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .header__logo { font-size: 22px; line-height: 1; }
+      .header__title { font-size: 15px; font-weight: 500; letter-spacing: 0.1px; }
+
+      /* ── Body ──────────────────────────────────────────────────────────────── */
+      .body { padding: 16px; }
+
+      /* ── Section title ─────────────────────────────────────────────────────── */
+      .section-title {
+        font-size: 11px;
+        font-weight: 600;
+        color: #5f6368;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin-bottom: 10px;
+      }
+
+      /* ── Stats grid ────────────────────────────────────────────────────────── */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+      .stat-card {
+        background: #f8f9fa;
+        border: 1px solid #e8eaed;
+        border-radius: 8px;
+        padding: 10px 12px;
+        text-align: center;
+      }
+      .stat-card__value { font-size: 22px; font-weight: 600; color: #1a73e8; line-height: 1.2; }
+      .stat-card__label { font-size: 11px; color: #5f6368; margin-top: 2px; }
+
+      /* ── Accounts ──────────────────────────────────────────────────────────── */
+      .accounts {
+        font-size: 12px;
+        color: #5f6368;
+        margin-bottom: 12px;
+        padding: 6px 8px;
+        background: #f8f9fa;
+        border-radius: 6px;
+        min-height: 28px;
+      }
+      .accounts__label { font-weight: 500; }
+
+      /* ── Divider ───────────────────────────────────────────────────────────── */
+      .divider { border: none; border-top: 1px solid #f1f3f4; margin: 12px 0; }
+
+      /* ── Buttons ───────────────────────────────────────────────────────────── */
+      .btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        width: 100%;
+        padding: 9px 16px;
+        border: 1px solid #dadce0;
+        border-radius: 6px;
+        background: #ffffff;
+        color: #202124;
+        font-size: 13px;
+        font-family: inherit;
+        cursor: pointer;
+        transition: background 0.15s, border-color 0.15s;
+        margin-bottom: 8px;
+      }
+      .btn:hover { background: #f8f9fa; }
+      .btn:active { background: #f1f3f4; }
+      .btn--primary {
+        background: #1a73e8;
+        color: white;
+        border-color: #1a73e8;
+      }
+      .btn--primary:hover { background: #1765cc; border-color: #1765cc; }
+      .btn:last-child { margin-bottom: 0; }
+
+      /* ── Status message ────────────────────────────────────────────────────── */
+      .status {
+        font-size: 13px;
+        padding: 8px 10px;
+        border-radius: 6px;
+        margin-top: 10px;
+        display: none;
+      }
+      .status--success { display: block; background: #e6f4ea; color: #137333; }
+      .status--error   { display: block; background: #fce8e6; color: #c5221f; }
+
+      /* ── Footer link ───────────────────────────────────────────────────────── */
+      .footer-link {
+        display: block;
+        text-align: center;
+        color: #1a73e8;
+        text-decoration: none;
+        font-size: 13px;
+        margin-top: 14px;
+        padding: 4px 0;
+      }
+      .footer-link:hover { text-decoration: underline; }
+
+      /* ── Hidden file input ─────────────────────────────────────────────────── */
+      #import-file { display: none; }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <span class="header__logo" aria-hidden="true">📚</span>
+      <h1 class="header__title">NotebookLM Companion</h1>
+    </header>
+
+    <!-- Body -->
+    <main class="body">
+      <!-- Stats -->
+      <p class="section-title">Statistics</p>
+      <div class="stats-grid" role="list">
+        <div class="stat-card" role="listitem">
+          <div class="stat-card__value" id="stat-notebooks">–</div>
+          <div class="stat-card__label">Notebooks</div>
+        </div>
+        <div class="stat-card" role="listitem">
+          <div class="stat-card__value" id="stat-favorites">–</div>
+          <div class="stat-card__label">Favorites</div>
+        </div>
+        <div class="stat-card" role="listitem">
+          <div class="stat-card__value" id="stat-folders">–</div>
+          <div class="stat-card__label">Folders</div>
+        </div>
+        <div class="stat-card" role="listitem">
+          <div class="stat-card__value" id="stat-tags">–</div>
+          <div class="stat-card__label">Tags</div>
+        </div>
+      </div>
+
+      <!-- Accounts -->
+      <div class="accounts" id="accounts-info" aria-label="Active accounts">
+        <span class="accounts__label">Accounts:</span> <span id="accounts-list">loading…</span>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Data actions -->
+      <p class="section-title">Data</p>
+      <button class="btn btn--primary" id="export-btn">⬇ Export JSON</button>
+      <button class="btn" id="import-btn">⬆ Import JSON</button>
+      <input type="file" id="import-file" accept=".json,application/json" aria-hidden="true" />
+
+      <!-- Status feedback -->
+      <div class="status" id="status-msg" role="alert" aria-live="assertive"></div>
+
+      <!-- Link to NotebookLM -->
+      <a
+        href="https://notebooklm.google.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="footer-link"
+      >
+        Open NotebookLM →
+      </a>
+    </main>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
