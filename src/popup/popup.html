@@ -4,109 +4,93 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NotebookLM Companion</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
     <style>
       *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
       body {
         font-family: 'Google Sans', Roboto, Arial, sans-serif;
-        width: 380px;
-        background: #f8f9fa;
+        width: 360px;
+        background: #fff;
         color: #202124;
         font-size: 14px;
         line-height: 1.5;
       }
 
+      .material-icons-round {
+        font-size: 20px;
+        vertical-align: middle;
+      }
+
       /* ── Header ── */
       .header {
-        background: #1a73e8;
-        background-image: radial-gradient(ellipse at 80% 50%, rgba(255,255,255,0.10) 0%, transparent 70%),
-                          linear-gradient(135deg, #1a73e8 0%, #1250aa 100%);
-        color: white;
-        padding: 18px 20px 16px;
+        padding: 20px 20px 18px;
+        border-bottom: 1px solid #f1f3f4;
         display: flex;
         align-items: center;
-        gap: 12px;
-        position: relative;
-        overflow: hidden;
+        gap: 14px;
       }
-      .header::after {
-        content: '';
-        position: absolute;
-        right: -20px; bottom: -20px;
-        width: 100px; height: 100px;
-        background: rgba(255,255,255,0.06);
-        border-radius: 50%;
-      }
-      .header__logo {
-        font-size: 26px;
-        line-height: 1;
-        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+      .header__icon-wrap {
+        width: 40px;
+        height: 40px;
+        background: #e8f0fe;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         flex-shrink: 0;
       }
-      .header__text { flex: 1; }
+      .header__icon-wrap .material-icons-round {
+        font-size: 22px;
+        color: #1a73e8;
+      }
       .header__title {
-        font-size: 16px;
+        font-size: 15px;
         font-weight: 600;
+        color: #202124;
         letter-spacing: -0.01em;
         line-height: 1.2;
       }
       .header__sub {
         font-size: 11px;
-        opacity: 0.75;
-        font-weight: 400;
-        margin-top: 1px;
+        color: #80868b;
+        margin-top: 2px;
       }
 
       /* ── Body ── */
-      .body { padding: 16px; }
-
-      /* ── Section title ── */
-      .section-title {
-        font-size: 10px;
-        font-weight: 700;
-        color: #80868b;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-bottom: 10px;
-      }
+      .body { padding: 16px 20px 20px; }
 
       /* ── Stats grid ── */
       .stats-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 8px;
-        margin-bottom: 12px;
+        margin-bottom: 16px;
       }
       .stat-card {
-        background: #ffffff;
-        border: 1px solid #e8eaed;
+        background: #f8f9fa;
         border-radius: 12px;
         padding: 14px 12px 12px;
-        text-align: center;
-        transition: box-shadow 0.15s, border-color 0.15s;
-        cursor: default;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
       }
-      .stat-card:hover {
-        border-color: #c5cae9;
-        box-shadow: 0 2px 8px rgba(26,115,232,0.10);
-      }
-      .stat-card__icon {
+      .stat-card__icon .material-icons-round {
         font-size: 18px;
-        line-height: 1;
-        margin-bottom: 6px;
-        display: block;
+        color: #1a73e8;
+        opacity: 0.8;
       }
       .stat-card__value {
-        font-size: 28px;
+        font-size: 26px;
         font-weight: 700;
-        color: #1a73e8;
+        color: #202124;
+        letter-spacing: -0.03em;
         line-height: 1;
-        letter-spacing: -0.02em;
       }
       .stat-card__label {
         font-size: 11px;
         color: #80868b;
-        margin-top: 4px;
         font-weight: 500;
       }
 
@@ -115,22 +99,37 @@
         display: flex;
         align-items: center;
         gap: 8px;
-        background: #ffffff;
-        border: 1px solid #e8eaed;
-        border-radius: 10px;
-        padding: 8px 12px;
-        margin-bottom: 14px;
-        min-height: 36px;
+        padding: 0 0 16px;
       }
-      .accounts-icon { font-size: 14px; flex-shrink: 0; opacity: 0.6; }
-      .accounts-text { font-size: 12px; color: #5f6368; }
-      .accounts-text strong { color: #3c4043; font-weight: 600; }
+      .accounts-row .material-icons-round {
+        font-size: 16px;
+        color: #80868b;
+        flex-shrink: 0;
+      }
+      .accounts-text {
+        font-size: 12px;
+        color: #5f6368;
+      }
+      .accounts-text strong {
+        color: #3c4043;
+        font-weight: 600;
+      }
 
       /* ── Divider ── */
       .divider {
         border: none;
-        border-top: 1px solid #e8eaed;
-        margin: 14px 0 12px;
+        border-top: 1px solid #f1f3f4;
+        margin: 0 0 16px;
+      }
+
+      /* ── Section title ── */
+      .section-title {
+        font-size: 10px;
+        font-weight: 700;
+        color: #9aa0a6;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 10px;
       }
 
       /* ── Buttons ── */
@@ -142,9 +141,9 @@
         width: 100%;
         height: 40px;
         padding: 0 16px;
-        border: 1px solid #dadce0;
+        border: 1.5px solid #dadce0;
         border-radius: 999px;
-        background: #ffffff;
+        background: #fff;
         color: #3c4043;
         font-size: 13px;
         font-weight: 500;
@@ -152,51 +151,46 @@
         cursor: pointer;
         transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
         margin-bottom: 8px;
-        letter-spacing: 0.01em;
       }
+      .btn .material-icons-round { font-size: 17px; }
       .btn:hover {
         background: #f8f9fa;
         border-color: #bdc1c6;
-        box-shadow: 0 1px 3px rgba(60,64,67,0.12);
       }
       .btn:active { background: #f1f3f4; }
       .btn--primary {
         background: #1a73e8;
-        color: white;
+        color: #fff;
         border-color: #1a73e8;
-        box-shadow: 0 1px 3px rgba(26,115,232,0.3);
       }
       .btn--primary:hover {
         background: #1765cc;
         border-color: #1765cc;
-        box-shadow: 0 2px 6px rgba(26,115,232,0.35);
+        box-shadow: 0 2px 8px rgba(26,115,232,0.3);
       }
-      .btn-icon { font-size: 14px; }
+      .btn:last-of-type { margin-bottom: 0; }
 
       /* ── Status message ── */
       .status {
         font-size: 12px;
+        font-weight: 500;
         padding: 8px 12px;
         border-radius: 8px;
         margin-top: 10px;
         display: none;
-        font-weight: 500;
-      }
-      .status--success {
-        display: flex;
         align-items: center;
         gap: 6px;
+      }
+      .status .material-icons-round { font-size: 15px; }
+      .status--success {
+        display: flex;
         background: #e6f4ea;
         color: #137333;
-        border: 1px solid #ceead6;
       }
       .status--error {
         display: flex;
-        align-items: center;
-        gap: 6px;
         background: #fce8e6;
         color: #c5221f;
-        border: 1px solid #f5c6c2;
       }
 
       /* ── Footer link ── */
@@ -209,55 +203,52 @@
         text-decoration: none;
         font-size: 12px;
         font-weight: 500;
-        margin-top: 14px;
-        padding: 6px 0;
-        opacity: 0.85;
+        margin-top: 16px;
         transition: opacity 0.15s;
       }
-      .footer-link:hover { opacity: 1; text-decoration: underline; }
+      .footer-link .material-icons-round { font-size: 14px; }
+      .footer-link:hover { text-decoration: underline; }
 
-      /* ── Hidden file input ── */
       #import-file { display: none; }
     </style>
   </head>
   <body>
     <header class="header">
-      <span class="header__logo" aria-hidden="true">📚</span>
-      <div class="header__text">
+      <div class="header__icon-wrap">
+        <span class="material-icons-round">auto_stories</span>
+      </div>
+      <div>
         <h1 class="header__title">NotebookLM Companion</h1>
-        <p class="header__sub">Organization layer for NotebookLM</p>
+        <p class="header__sub">Folders · Tags · Filters</p>
       </div>
     </header>
 
     <main class="body">
-      <!-- Stats -->
-      <p class="section-title">Statistics</p>
       <div class="stats-grid" role="list">
         <div class="stat-card" role="listitem">
-          <span class="stat-card__icon">📓</span>
+          <span class="stat-card__icon"><span class="material-icons-round">menu_book</span></span>
           <div class="stat-card__value" id="stat-notebooks">–</div>
           <div class="stat-card__label">Notebooks</div>
         </div>
         <div class="stat-card" role="listitem">
-          <span class="stat-card__icon">⭐</span>
+          <span class="stat-card__icon"><span class="material-icons-round">star</span></span>
           <div class="stat-card__value" id="stat-favorites">–</div>
           <div class="stat-card__label">Favorites</div>
         </div>
         <div class="stat-card" role="listitem">
-          <span class="stat-card__icon">📁</span>
+          <span class="stat-card__icon"><span class="material-icons-round">folder</span></span>
           <div class="stat-card__value" id="stat-folders">–</div>
           <div class="stat-card__label">Folders</div>
         </div>
         <div class="stat-card" role="listitem">
-          <span class="stat-card__icon">🏷️</span>
+          <span class="stat-card__icon"><span class="material-icons-round">label</span></span>
           <div class="stat-card__value" id="stat-tags">–</div>
           <div class="stat-card__label">Tags</div>
         </div>
       </div>
 
-      <!-- Accounts -->
       <div class="accounts-row" id="accounts-info" aria-label="Active accounts">
-        <span class="accounts-icon">👤</span>
+        <span class="material-icons-round">account_circle</span>
         <span class="accounts-text">
           <strong>Account:</strong> <span id="accounts-list">loading…</span>
         </span>
@@ -265,27 +256,19 @@
 
       <hr class="divider" />
 
-      <!-- Data actions -->
       <p class="section-title">Data</p>
       <button class="btn btn--primary" id="export-btn">
-        <span class="btn-icon">⬇</span> Export JSON
+        <span class="material-icons-round">download</span> Export JSON
       </button>
       <button class="btn" id="import-btn">
-        <span class="btn-icon">⬆</span> Import JSON
+        <span class="material-icons-round">upload</span> Import JSON
       </button>
       <input type="file" id="import-file" accept=".json,application/json" aria-hidden="true" />
 
-      <!-- Status feedback -->
       <div class="status" id="status-msg" role="alert" aria-live="assertive"></div>
 
-      <!-- Link to NotebookLM -->
-      <a
-        href="https://notebooklm.google.com"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="footer-link"
-      >
-        Open NotebookLM →
+      <a href="https://notebooklm.google.com" target="_blank" rel="noopener noreferrer" class="footer-link">
+        Open NotebookLM <span class="material-icons-round">open_in_new</span>
       </a>
     </main>
 
