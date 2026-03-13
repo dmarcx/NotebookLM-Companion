@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NotebookLM Companion</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        font-family: 'Google Sans', Roboto, Arial, sans-serif;
+        width: 360px;
+        background: #fff;
+        color: #202124;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .material-icons-round {
+        font-size: 20px;
+        vertical-align: middle;
+      }
+
+      /* ── Header ── */
+      .header {
+        padding: 20px 20px 18px;
+        border-bottom: 1px solid #f1f3f4;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .header__icon-wrap {
+        width: 40px;
+        height: 40px;
+        background: #e8f0fe;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .header__icon-wrap .material-icons-round {
+        font-size: 22px;
+        color: #1a73e8;
+      }
+      .header__title {
+        font-size: 15px;
+        font-weight: 600;
+        color: #202124;
+        letter-spacing: -0.01em;
+        line-height: 1.2;
+      }
+      .header__sub {
+        font-size: 11px;
+        color: #80868b;
+        margin-top: 2px;
+      }
+
+      /* ── Body ── */
+      .body { padding: 16px 20px 20px; }
+
+      /* ── Stats grid ── */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+      .stat-card {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 14px 12px 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+      }
+      .stat-card__icon .material-icons-round {
+        font-size: 18px;
+        color: #1a73e8;
+        opacity: 0.8;
+      }
+      .stat-card__value {
+        font-size: 26px;
+        font-weight: 700;
+        color: #202124;
+        letter-spacing: -0.03em;
+        line-height: 1;
+      }
+      .stat-card__label {
+        font-size: 11px;
+        color: #80868b;
+        font-weight: 500;
+      }
+
+      /* ── Accounts ── */
+      .accounts-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0 0 16px;
+      }
+      .accounts-row .material-icons-round {
+        font-size: 16px;
+        color: #80868b;
+        flex-shrink: 0;
+      }
+      .accounts-text {
+        font-size: 12px;
+        color: #5f6368;
+      }
+      .accounts-text strong {
+        color: #3c4043;
+        font-weight: 600;
+      }
+
+      /* ── Divider ── */
+      .divider {
+        border: none;
+        border-top: 1px solid #f1f3f4;
+        margin: 0 0 16px;
+      }
+
+      /* ── Section title ── */
+      .section-title {
+        font-size: 10px;
+        font-weight: 700;
+        color: #9aa0a6;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 10px;
+      }
+
+      /* ── Buttons ── */
+      .btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        height: 40px;
+        padding: 0 16px;
+        border: 1.5px solid #dadce0;
+        border-radius: 999px;
+        background: #fff;
+        color: #3c4043;
+        font-size: 13px;
+        font-weight: 500;
+        font-family: inherit;
+        cursor: pointer;
+        transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+        margin-bottom: 8px;
+      }
+      .btn .material-icons-round { font-size: 17px; }
+      .btn:hover {
+        background: #f8f9fa;
+        border-color: #bdc1c6;
+      }
+      .btn:active { background: #f1f3f4; }
+      .btn--primary {
+        background: #1a73e8;
+        color: #fff;
+        border-color: #1a73e8;
+      }
+      .btn--primary:hover {
+        background: #1765cc;
+        border-color: #1765cc;
+        box-shadow: 0 2px 8px rgba(26,115,232,0.3);
+      }
+      .btn:last-of-type { margin-bottom: 0; }
+
+      /* ── Status message ── */
+      .status {
+        font-size: 12px;
+        font-weight: 500;
+        padding: 8px 12px;
+        border-radius: 8px;
+        margin-top: 10px;
+        display: none;
+        align-items: center;
+        gap: 6px;
+      }
+      .status .material-icons-round { font-size: 15px; }
+      .status--success {
+        display: flex;
+        background: #e6f4ea;
+        color: #137333;
+      }
+      .status--error {
+        display: flex;
+        background: #fce8e6;
+        color: #c5221f;
+      }
+
+      /* ── Footer link ── */
+      .footer-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        color: #1a73e8;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 500;
+        margin-top: 16px;
+        transition: opacity 0.15s;
+      }
+      .footer-link .material-icons-round { font-size: 14px; }
+      .footer-link:hover { text-decoration: underline; }
+
+      #import-file { display: none; }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="header__icon-wrap">
+        <span class="material-icons-round">auto_stories</span>
+      </div>
+      <div>
+        <h1 class="header__title">NotebookLM Companion</h1>
+        <p class="header__sub">Folders · Tags · Filters</p>
+      </div>
+    </header>
+
+    <main class="body">
+      <div class="stats-grid" role="list">
+        <div class="stat-card" role="listitem">
+          <span class="stat-card__icon"><span class="material-icons-round">menu_book</span></span>
+          <div class="stat-card__value" id="stat-notebooks">–</div>
+          <div class="stat-card__label">Notebooks</div>
+        </div>
+        <div class="stat-card" role="listitem">
+          <span class="stat-card__icon"><span class="material-icons-round">star</span></span>
+          <div class="stat-card__value" id="stat-favorites">–</div>
+          <div class="stat-card__label">Favorites</div>
+        </div>
+        <div class="stat-card" role="listitem">
+          <span class="stat-card__icon"><span class="material-icons-round">folder</span></span>
+          <div class="stat-card__value" id="stat-folders">–</div>
+          <div class="stat-card__label">Folders</div>
+        </div>
+        <div class="stat-card" role="listitem">
+          <span class="stat-card__icon"><span class="material-icons-round">label</span></span>
+          <div class="stat-card__value" id="stat-tags">–</div>
+          <div class="stat-card__label">Tags</div>
+        </div>
+      </div>
+
+      <div class="accounts-row" id="accounts-info" aria-label="Active accounts">
+        <span class="material-icons-round">account_circle</span>
+        <span class="accounts-text">
+          <strong>Account:</strong> <span id="accounts-list">loading…</span>
+        </span>
+      </div>
+
+      <hr class="divider" />
+
+      <p class="section-title">Data</p>
+      <button class="btn btn--primary" id="export-btn">
+        <span class="material-icons-round">download</span> Export JSON
+      </button>
+      <button class="btn" id="import-btn">
+        <span class="material-icons-round">upload</span> Import JSON
+      </button>
+      <input type="file" id="import-file" accept=".json,application/json" aria-hidden="true" />
+
+      <div class="status" id="status-msg" role="alert" aria-live="assertive"></div>
+
+      <a href="https://notebooklm.google.com" target="_blank" rel="noopener noreferrer" class="footer-link">
+        Open NotebookLM <span class="material-icons-round">open_in_new</span>
+      </a>
+    </main>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
